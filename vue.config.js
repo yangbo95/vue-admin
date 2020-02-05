@@ -1,8 +1,8 @@
 'use strict'
-const path = require('path')
+const path = require('path');
 function resolve(dir) {
   return path.join(__dirname, dir)
-}
+};
 
 
 
@@ -22,8 +22,8 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: './',
-  outputDir: 'dist',
+  publicPath: process.env.NODE_ENV === 'production' ? '' : './',
+  outputDir: process.env.NODE_ENV === 'production' ? 'dist' : 'devlist',
   assetsDir: 'static',
   lintOnSave: false,
   productionSourceMap: false,
@@ -34,21 +34,47 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    proxy: {
+      "/api": {
+        /* 目标代理服务器地址 */
+        target: "http://www.web-jshtml.cn/productapi", 
+        /* 允许跨域 */
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          "^/api": ""
+        }
+      }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
     resolve: {
+      extensions: ['.js', '.json', '.vue'],
       alias: {
-        '@': resolve('src')
+        '@': resolve('src'),
+        'vue$': 'vue/dist/vue.js'
       }
-    }
+    },
+    // module: {
+    //   unknownContextCritical: false,
+    // },
   },
   chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
     config.plugins.delete('prefetch') // TODO: need test
 
     // set svg-sprite-loader
+    const svgRule = config.module.rule("svg");
+    svgRule.uses.clear();
+    svgRule
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
+      .options({
+        symbolId: "icon-[name]",
+        include: ["./src/icon"]
+      })
    
   },
   css: {
@@ -63,6 +89,6 @@ module.exports = {
       }
     },
     // 启用 CSS modules for all css / pre-processor files.
-    requireModuleExtension: false
+    requireModuleExtension: true
   }
 }
