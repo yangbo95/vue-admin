@@ -5,3 +5,26 @@ $navMenu: 250px;
 
 // 主颜色
 $mainColor: #f56c6c;
+// 辅助色
+
+
+@mixin webkit($type,$value) {
+  -webkit-#{$type}: $value;
+    -moz-#{$type}: $value;
+    -o-#{$type}: $value;
+    -ms-#{$type}: $value;
+    #{$type}: $value;
+}
+
+
+@mixin labelwrap($align,$width,$height) {
+  label {
+    float: left;
+    width: $width + px;
+    line-height: $height + px;
+    text-align: $align;
+  }
+  .main-content {
+    margin-left: $width + px;
+  }
+}

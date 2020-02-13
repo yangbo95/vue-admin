@@ -8,8 +8,8 @@ import layout from '@/layout/index'
 const routes = [
   {
     path: "/",
-    redirect: '/login',
     hidden: true,
+    redirect: '/login',
     meta: {
       title: '主页'
     }
@@ -24,12 +24,12 @@ const routes = [
     }
   },
   {
-    path: "/",
+    path: "/index",
     name: "home",
     component: layout,
     redirect: '/console',
     meta: {
-      title: '控制台'
+      title: '控制台', icon: 'console'
     },
     children: [
       {
@@ -47,7 +47,7 @@ const routes = [
     name: "info",
     component: layout,
     meta: {
-      title: '信息管理'
+      title: '信息管理', icon: 'info'
     },
     children: [
       {
@@ -73,7 +73,7 @@ const routes = [
     name: "user",
     component: layout,
     meta: {
-      title: '用户管理'
+      title: '用户管理', icon: 'user'
     },
     children: [
       {
@@ -85,7 +85,7 @@ const routes = [
         }
       }
     ]
-  }
+  },
 ];
 
 const router = new VueRouter({

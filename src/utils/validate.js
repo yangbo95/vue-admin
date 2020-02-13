@@ -1,3 +1,4 @@
+
 // 过滤特殊字符
 
 export function stripscript(s){
@@ -38,3 +39,4 @@ export function validataVCode(value) {
     return true
   }
 }
+

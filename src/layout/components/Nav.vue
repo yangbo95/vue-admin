@@ -1,16 +1,18 @@
 <template>
   <div id="nav-wrap">
+    <div class="logo">
+      <img height="100" src="../../assets/system.png" alt="">
+    </div>
     <el-menu default-active="1-4-1" background-color="transparent" 
-      class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" 
-      :collapse="isCollapse" text-color="#fff" active-text-color="#fff" :router="true">
+      class="el-menu-vertical-demo" :collapse="IsCollapse" text-color="#fff" active-text-color="#fff" :router="true">
 
       <template v-for="(item,index) in routers">
         <el-submenu v-if="!item.hidden" :key="item.id"  :index="index+''">
           <!-- 一级菜单 -->
           <template slot="title">
             <!-- <i class="el-icon-help"></i> -->
-            <svg-icon iconClass="console" className="console"/>
-            <span slot="title">{{ item.meta.title }}</span>
+            <svg-icon :iconClass="item.meta.icon" :className="item.meta.icon"/>
+            <span slot="title" class="title-route">{{ item.meta.title }}</span>
           </template>
             <el-menu-item v-for="subItem in item.children" 
             :key="subItem.id" :index="subItem.path">
@@ -27,18 +29,15 @@
 <script>
 export default {
   data() {
-     // console.log(this.$router.options.routes);
+     // console.log(this.$store.state.isCollapse);
     return {
       isCollapse: false,
       routers: this.$router.options.routes,
     };
   },
-  methods: {
-    handleOpen(key, keyPath) {
-      // console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      // console.log(key, keyPath);
+  computed: {
+    IsCollapse() {
+      return this.$store.state.app.isCollapse;
     }
   },
 }
@@ -46,6 +45,14 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/styles/config.scss';
+  .logo{
+    @include webkit(transition,all 0.3s ease 0s);
+    img {
+      margin-top: 20px;
+      margin-left: 70px;
+      
+    }
+  }
   #nav-wrap {
     position: fixed;
     width: $navMenu;
@@ -53,6 +60,31 @@ export default {
     top: 0;
     left: 0;
     background-color: #344a5f;
+    @include webkit(transition,all 0.5s ease 0s);
   }
-  
+  .title-route {
+    position: absolute;
+    top: 1px;
+    left: 50px;
+  }
+  .el-menu {
+    width: $navMenu;
+    border-right: none;
+  }
+  .open {
+    #nav-wrap {
+      width: $navMenu;
+    }
+  }
+  .close {
+    #nav-wrap {
+      width: 64px;
+      .logo {
+        transform: scaleX(0)
+      }
+      .el-submenu {
+        width: 64px;
+      }
+    }
+  }
 </style>

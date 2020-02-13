@@ -117,8 +117,8 @@ export default {
       codeButtonText: '获取验证码',
       timer: null,
       ruleForm: {
-        username: '',
-        password: '',
+        username: '1207146363@qq.com',
+        password: 'yb951126',
         code: '',
         passwords: ''
       },
@@ -162,17 +162,20 @@ export default {
           if (valid) {
 
             if(this.model === 'login') {
-                // 登录
+                // 登录 
                   let requestData = {
                     username: this.ruleForm.username,
                     password: this.ruleForm.password,
                     code: this.ruleForm.code,
-                    module: 'login',
+                   // module: 'login',
                   }
-                  Login(requestData).then(response => {
+                  this.$store.dispatch('app/login',requestData)
+                  .then(response => {
                     console.log('登录成功');
-                    // 跳转到首页
-                    this.$router.push({path: '/console'})
+                    if(+response.data.resCode === 0){
+                      // 跳转到首页
+                      this.$router.push({path: '/console'})
+                    }
                   }).catch( error => {
 
                   })
@@ -236,7 +239,7 @@ export default {
         }).catch(error => {
           console.log(error);
         })
-      },3000)
+      },1000)
     },
 
     // 倒计时
