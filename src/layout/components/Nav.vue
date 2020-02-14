@@ -14,10 +14,13 @@
             <svg-icon :iconClass="item.meta.icon" :className="item.meta.icon"/>
             <span slot="title" class="title-route">{{ item.meta.title }}</span>
           </template>
-            <el-menu-item v-for="subItem in item.children" 
+          <template v-for="subItem in item.children">
+            <el-menu-item v-if="!subItem.hidden" 
             :key="subItem.id" :index="subItem.path">
               {{subItem.meta.title}}
             </el-menu-item>
+          </template>
+            
         </el-submenu>
         
       </template>
